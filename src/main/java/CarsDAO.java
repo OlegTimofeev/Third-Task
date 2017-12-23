@@ -28,6 +28,9 @@ public class CarsDAO {
                     break;
                 }
             }
+            if(!carHasNoErrors){
+                continue;
+            }
             for (Car.Color i : Car.Color.values()) {
                 if (carPart[2+6*j].equals(i.toString())) {
                     car.setColor(carPart[2].trim());
@@ -36,15 +39,14 @@ public class CarsDAO {
             if (car.getColor() == null) {
                 carHasNoErrors = false;
                 System.out.println("There no color " + carPart[2].trim() + ". Car number " + j + " not added to carList");
+                continue;
             }
             car.setMark(new Mark(carPart[3 + 6 * j].trim(), carPart[1 + 6 * j]));
             car.setModel(new Model(carPart[4 + 6 * j].trim(), carPart[1 + 6 * j]));
             car.setYear(Integer.parseInt(carPart[5 + 6 * j]));
             car.setPrice(BigDecimal.valueOf(Long.parseLong(carPart[6 + 6 * j])));
-            if (carHasNoErrors) {
-                cars[carNow] = car;
-                carNow++;
-            }
+            cars[carNow] = car;
+            carNow++;
         }
         Car[] carsWithoutNull= new Car[carNow];
         for(int i=0;i<carNow;i++){
