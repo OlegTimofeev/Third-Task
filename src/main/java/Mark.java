@@ -1,5 +1,5 @@
 
-public class Mark extends Car {
+public class Mark  {
     private String code;
     private String name;
 
@@ -23,11 +23,6 @@ public class Mark extends Car {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public int compareTo(String str){
-        return name.toUpperCase().compareTo(str.toUpperCase());
     }
 
 }

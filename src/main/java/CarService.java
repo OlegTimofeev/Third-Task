@@ -18,17 +18,17 @@ public class CarService {
         }
     }
 
-    public Car[] findMark(Car[] cars,String markName){
+    public Car[] find(Car[] cars,Mark mark){
         int count=0;
         for(Car i:cars){
-            if(i.getMark().compareTo(markName)==0){
+            if(i.getMark().getName().equals(mark.getName())){
                 count++;
             }
         }
         int j=0;
         Car[] carAllFindedMarks= new Car[count];
         for(int i=0;i<cars.length;i++){
-            if(cars[i].getMark().compareTo(markName)==0){
+            if(cars[i].getMark().getName().equals(mark.getName())){
                 carAllFindedMarks[j]=cars[i];
                 j++;
             }
@@ -36,50 +36,68 @@ public class CarService {
         return carAllFindedMarks;
     }
 
-    public Car[] findModel(Car[] cars,String modelName){
+    public Car[] find(Car[] cars,Model model){
         int count=0;
         for(Car i:cars){
-            if(i.getModel().compareTo(modelName)==0){
+            if(i.getModel().getName().equals(model.getName())){
                 count++;
             }
         }
         int j=0;
-        Car[] carAllFindedModels= new Car[count];
+        Car[] carAllFindedMarks= new Car[count];
         for(int i=0;i<cars.length;i++){
-            if(cars[i].getModel().compareTo(modelName)==0){
-                carAllFindedModels[j]=cars[i];
+            if(cars[i].getModel().getName().equals(model.getName())){
+                carAllFindedMarks[j]=cars[i];
                 j++;
             }
         }
-        return carAllFindedModels;
+        return carAllFindedMarks;
     }
 
-    public Car[] findColor(Car[] cars,String color){
+    public Car[] find(Car[] cars,Model model,Mark mark){
         int count=0;
         for(Car i:cars){
-            if(i.getCc().compareTo(color)==0){
+            if(i.getModel().getName().equals(model.getName())&&i.getMark().getName().equals(mark.getName())){
                 count++;
             }
         }
         int j=0;
-        Car[] carAllFindedModels= new Car[count];
+        Car[] carAllFindedMarks= new Car[count];
         for(int i=0;i<cars.length;i++){
-            if(cars[i].getCc().compareTo(color)==0){
-                carAllFindedModels[j]=cars[i];
+            if(cars[i].getModel().getName().equals(model.getName())&&cars[i].getMark().getName().equals(mark.getName())){
+                carAllFindedMarks[j]=cars[i];
                 j++;
             }
         }
-        return carAllFindedModels;
+        return carAllFindedMarks;
     }
 
-    public Car findCode(Car[] cars,String code){
-        Car car= new Car();
+    public Car[] find(Car[] cars, Model model, Mark mark, Car.Color color){
+        int count=0;
         for(Car i:cars){
-            if(i.compareTo(code)==0){
-                car=i;
+            if(i.getModel().getName().equals(model.getName())&&i.getMark().getName().equals(mark.getName())&&i.getColor().equals(color)){
+                count++;
             }
         }
-        return car;
+        int j=0;
+        Car[] carAllFindedMarks= new Car[count];
+        for(int i=0;i<cars.length;i++){
+            if(cars[i].getModel().equals(model)&&cars[i].getMark().equals(mark)&&cars[i].getColor().equals(color)){
+                carAllFindedMarks[j]=cars[i];
+                j++;
+            }
+        }
+        return carAllFindedMarks;
+    }
+
+    public Car find(Car[] cars,Car car){
+        Car carToReturn = null;
+        for(Car i :cars){
+            if(i.getCode().equals(car.getCode())){
+                carToReturn=i;
+            }
+        }
+        return carToReturn;
     }
 
 }

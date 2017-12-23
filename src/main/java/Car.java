@@ -7,20 +7,17 @@ public class Car {
     private Model model;
     private int year;
     private BigDecimal price;
-    private CarColor cc;
 
-    public CarColor getCc() {
-        return cc;
+    public enum Color {BLACK,WHITE,GREEN,SILVER,GRAY,RED}
+
+    private Color color;
+
+    public Color getColor() {
+        return color;
     }
 
-    public void setCc(String str) {
-        CarColor cc= new CarColor();
-        cc.setColor(str);
-        this.cc = cc;
-    }
-
-    public int compareTo(String str){
-        return code.compareTo(str);
+    public void setColor(String str) {
+        this.color=Color.valueOf(str);
     }
 
     public String getCode() {
@@ -52,7 +49,7 @@ public class Car {
     }
 
     public void setPrice(BigDecimal price) {
-        price=price.setScale(2,BigDecimal.ROUND_HALF_UP);
+        price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
         this.price = price;
     }
 
@@ -61,6 +58,7 @@ public class Car {
     }
 
     public void setYear(int year) {
-        this.year=year;
+        if(year>999&&year<10000)
+        this.year = year;
     }
 }

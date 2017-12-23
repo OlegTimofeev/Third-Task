@@ -1,5 +1,5 @@
 
-public class Model extends Car {
+public class Model  {
     private String code;
     private String name;
 
@@ -22,11 +22,6 @@ public class Model extends Car {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public int compareTo(String str){
-       return name.toUpperCase().compareTo(str.toUpperCase());
     }
 
 }
