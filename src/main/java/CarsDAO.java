@@ -1,9 +1,24 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class CarsDAO {
+
+    private Car[] cars;
+
+    public CarsDAO() throws IOException {
+        cars=new Car[0];
+        getAllCars();
+    }
+    public Car[] getCars() {
+        return cars;
+    }
+
+    public void setCars(Car[] cars) {
+        this.cars = cars;
+    }
 
     public String countOfCars(Scanner sc) {
         String str = "";
@@ -13,16 +28,24 @@ public class CarsDAO {
         return str;
     }
 
-    public Car[] fromStringToCars(String str) throws Exception {
+    public void addCar(Car car){
+        Car[] carNewMass= new Car[cars.length+1];
+        int i=cars.length;
+        System.arraycopy(cars,0,carNewMass,0,i);
+        cars=carNewMass;
+        cars[i]=car;
+    }
+
+    public void fromStringToCars(String str) {
+
         String[] carPart = str.split("[;]+");
-        Car[] cars = new Car[carPart.length / 7 + 1];
         int carNow = 0;
         for (int j = carPart.length / 7; j > -1; j--) {
             Car car = new Car();
             boolean carHasNoErrors = true;
             car.setCode(carPart[1 + 6 * j]);
             for (int i = 0; i < j - 1; i++) {
-                if (car.getCode().equals(carPart[1 + 6 * i])) {
+                if (car.getCode().equalsIgnoreCase(carPart[1 + 6 * i])) {
                     carHasNoErrors = false;
                     System.out.println("Car has equal code. Car number " + j + " not added to carList");
                     break;
@@ -31,44 +54,36 @@ public class CarsDAO {
             if(!carHasNoErrors){
                 continue;
             }
-            for (Car.Color i : Car.Color.values()) {
-                if (carPart[2+6*j].equals(i.toString())) {
-                    car.setColor(carPart[2].trim());
+            for (CarColor i : CarColor.values()) {
+                if (carPart[2+6*j].equalsIgnoreCase(i.toString())) {
+                    car.setColor(carPart[2+6*j].trim().toUpperCase());
                 }
             }
             if (car.getColor() == null) {
                 carHasNoErrors = false;
-                System.out.println("There no color " + carPart[2].trim() + ". Car number " + j + " not added to carList");
+                System.out.println("There no color " + carPart[2+6*j].trim() + ". Car number " + j + " not added to carList");
                 continue;
             }
             car.setMark(new Mark(carPart[3 + 6 * j].trim(), carPart[1 + 6 * j]));
             car.setModel(new Model(carPart[4 + 6 * j].trim(), carPart[1 + 6 * j]));
             car.setYear(Integer.parseInt(carPart[5 + 6 * j]));
-            car.setPrice(BigDecimal.valueOf(Long.parseLong(carPart[6 + 6 * j])));
-            cars[carNow] = car;
-            carNow++;
+            car.setPrice(BigDecimal.valueOf(Double.parseDouble(carPart[6 + 6 * j])));
+            addCar(car);
         }
-        Car[] carsWithoutNull= new Car[carNow];
-        for(int i=0;i<carNow;i++){
-            carsWithoutNull[i]=cars[i];
-        }
-        return carsWithoutNull;
     }
 
-    public Car[] getAllCars() throws IOException {
+    public void getAllCars() throws IOException {
         FileReader fr = new FileReader("cars.dat");
         Scanner sc = new Scanner(fr);
         String str;
         int count = 0;
         str = countOfCars(sc);
-        Car[] allCars = new Car[str.length() / 7 + 1];
         sc.close();
-        fr.close();
         try {
-            allCars = fromStringToCars(str);
-        } catch (Exception e) {
+            fr.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return allCars;
+        fromStringToCars(str);
     }
 }

@@ -1,0 +1,2 @@
+    enum CarColor {BLACK,WHITE,GREEN,SILVER,GRAY,RED}
+

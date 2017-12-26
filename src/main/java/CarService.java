@@ -1,6 +1,18 @@
+import java.io.IOException;
+
 public class CarService {
 
-    public void sortPrice(Car[] cars, int down) {
+    private CarsDAO carsDAO;
+    private Car[] findedCars;
+    private Car[] cars;
+
+    public CarService() throws IOException {
+        carsDAO=new CarsDAO();
+        cars=new Car[carsDAO.getCars().length];
+        System.arraycopy(carsDAO.getCars(),0,cars,0,carsDAO.getCars().length);
+    }
+
+    public void sortPrice( int down) {
         Car swapCar;
         int index;
         for (int j = 0; j < cars.length; j++) {
@@ -18,86 +30,63 @@ public class CarService {
         }
     }
 
-    public Car[] find(Car[] cars,Mark mark){
-        int count=0;
+    public Car[] findMark(String mark){
+        findedCars= new Car[0];
         for(Car i:cars){
-            if(i.getMark().getName().equals(mark.getName())){
-                count++;
+            if(i.getMark().getName().equalsIgnoreCase(mark)){
+                addCar(i);
             }
         }
-        int j=0;
-        Car[] carAllFindedMarks= new Car[count];
-        for(int i=0;i<cars.length;i++){
-            if(cars[i].getMark().getName().equals(mark.getName())){
-                carAllFindedMarks[j]=cars[i];
-                j++;
-            }
-        }
-        return carAllFindedMarks;
+        return findedCars;
+
     }
 
-    public Car[] find(Car[] cars,Model model){
-        int count=0;
+    public Car[] findModel(String model){
+        findedCars= new Car[0];
         for(Car i:cars){
-            if(i.getModel().getName().equals(model.getName())){
-                count++;
+            if(i.getModel().getName().equalsIgnoreCase(model)){
+                addCar(i);
             }
         }
-        int j=0;
-        Car[] carAllFindedMarks= new Car[count];
-        for(int i=0;i<cars.length;i++){
-            if(cars[i].getModel().getName().equals(model.getName())){
-                carAllFindedMarks[j]=cars[i];
-                j++;
-            }
-        }
-        return carAllFindedMarks;
+        return findedCars;
     }
 
-    public Car[] find(Car[] cars,Model model,Mark mark){
-        int count=0;
+    public Car[] find(String model,String mark){
+        findedCars= new Car[0];
         for(Car i:cars){
-            if(i.getModel().getName().equals(model.getName())&&i.getMark().getName().equals(mark.getName())){
-                count++;
+            if(i.getModel().getName().equalsIgnoreCase(model)&&i.getMark().getName().equalsIgnoreCase(mark)){
+                addCar(i);
             }
         }
-        int j=0;
-        Car[] carAllFindedMarks= new Car[count];
-        for(int i=0;i<cars.length;i++){
-            if(cars[i].getModel().getName().equals(model.getName())&&cars[i].getMark().getName().equals(mark.getName())){
-                carAllFindedMarks[j]=cars[i];
-                j++;
-            }
-        }
-        return carAllFindedMarks;
+        return findedCars;
     }
 
-    public Car[] find(Car[] cars, Model model, Mark mark, Car.Color color){
-        int count=0;
+    public Car[] find(String model, String mark, String color){
+        findedCars= new Car[0];
         for(Car i:cars){
-            if(i.getModel().getName().equals(model.getName())&&i.getMark().getName().equals(mark.getName())&&i.getColor().equals(color)){
-                count++;
+            if(i.getModel().getName().equalsIgnoreCase(model)&&i.getMark().getName().equalsIgnoreCase(mark)&&i.getColor().toString().equalsIgnoreCase(color)){
+                addCar(i);
             }
         }
-        int j=0;
-        Car[] carAllFindedMarks= new Car[count];
-        for(int i=0;i<cars.length;i++){
-            if(cars[i].getModel().equals(model)&&cars[i].getMark().equals(mark)&&cars[i].getColor().equals(color)){
-                carAllFindedMarks[j]=cars[i];
-                j++;
-            }
-        }
-        return carAllFindedMarks;
+        return findedCars;
     }
 
-    public Car find(Car[] cars,Car car){
+    public Car find(String code){
         Car carToReturn = null;
         for(Car i :cars){
-            if(i.getCode().equals(car.getCode())){
+            if(i.getCode().equalsIgnoreCase(code)){
                 carToReturn=i;
             }
         }
         return carToReturn;
+    }
+
+    public void addCar(Car car){
+        Car[] carNewMass= new Car[findedCars.length+1];
+        int i=findedCars.length;
+        System.arraycopy(findedCars,0,carNewMass,0,i);
+        findedCars=carNewMass;
+        findedCars[i]=car;
     }
 
 }

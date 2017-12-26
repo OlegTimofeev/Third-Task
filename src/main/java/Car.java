@@ -7,17 +7,14 @@ public class Car {
     private Model model;
     private int year;
     private BigDecimal price;
+    private CarColor color;
 
-    public enum Color {BLACK,WHITE,GREEN,SILVER,GRAY,RED}
-
-    private Color color;
-
-    public Color getColor() {
+    public CarColor getColor() {
         return color;
     }
 
-    public void setColor(String str) {
-        this.color=Color.valueOf(str);
+    public void setColor(String color) {
+        this.color = CarColor.valueOf(color);
     }
 
     public String getCode() {
